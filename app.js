@@ -1,7 +1,7 @@
 const express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
-
+const { encode, decode } = require('gpt-3-encoder');
 
 // 创建一个Express应用实例
 const app = express();
@@ -198,6 +198,10 @@ function generateRandomNumber() {
 // 开始处理数据
 app.post("/v1/chat/completions", async (req, res) => {
     let databody = req.body;
+    let index = 0;
+    databody.messages.forEach(element => {
+        index += encode(element.content).length;
+    });
     let question1 = await formatMessages(databody.messages);
     let firstSystemContent = getLastSystemContent(databody);
     let systemcontent = "";
@@ -288,9 +292,9 @@ app.post("/v1/chat/completions", async (req, res) => {
                         },
                     ],
                     usage: {
-                        prompt_tokens: 0,
-                        completion_tokens: 0,
-                        total_tokens: 0,
+                        prompt_tokens: index,
+                        completion_tokens: encode(nonstr).length,
+                        total_tokens: index + encode(nonstr).length,
                     },
                     system_fingerprint: null,
                 });
