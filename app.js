@@ -248,6 +248,9 @@ app.post("/v1/chat/completions", async (req, res) => {
     proxyReq.on("response", function (response) {
         response.on("data", (chunk) => {
             let message = `${chunk.toString()}`;
+            if(message.includes("theb")) {
+                return
+            }
             message = message.split(/data: |event: update/);
             message.forEach((item) => {
                 if (
