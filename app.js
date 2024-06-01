@@ -298,7 +298,6 @@ app.post("/v1/chat/completions", async (req, res) => {
                     },
                     system_fingerprint: null,
                 });
-                res.end();
                 return;
             }
             res.write(
@@ -312,10 +311,7 @@ app.post("/v1/chat/completions", async (req, res) => {
     });
     proxyReq.on("error", function (error) {
         // 在这里打印错误日志
-        // console.error("请求出错:", error);
-        // res.end()
-        // 向客户端发送错误响应
-        res.status(500).send("代理请求出错");
+        console.error("请求出错:")
     });
 });
 
