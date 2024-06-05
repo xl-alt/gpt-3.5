@@ -2,6 +2,7 @@ const express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 const { encode, decode } = require('gpt-3-encoder');
+const axios = require("axios");
 
 // 创建一个Express应用实例
 const app = express();
