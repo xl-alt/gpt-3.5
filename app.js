@@ -200,8 +200,10 @@ app.post("/v1/chat/completions", async (req, res) => {
     let databody = req.body;
     let index = 0;
     databody.messages.forEach(element => {
-        index += encode(element.content).length;
-    });
+        if (element && element != "" && element != undefined) {
+            index += encode(JSON.stringify(element.content)).length;
+        }
+    });
     let question1 = await formatMessages(databody.messages);
     let firstSystemContent = getLastSystemContent(databody);
     let systemcontent = "";
